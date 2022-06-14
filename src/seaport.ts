@@ -5,6 +5,7 @@ import {
   ethers,
   PayableOverrides,
   providers,
+  Wallet,
 } from "ethers";
 import { formatBytes32String, _TypedDataEncoder } from "ethers/lib/utils";
 import { SeaportABI } from "./abi/Seaport";
@@ -59,6 +60,7 @@ import {
   totalItemsAmount,
 } from "./utils/order";
 import { executeAllActions, getTransactionMethods } from "./utils/usecase";
+import { Provider } from "@ethersproject/providers";
 
 export class Seaport {
   // Provides the raw interface to the contract for flexibility
@@ -270,11 +272,12 @@ export class Seaport {
       getMessageToSign: () => {
         return this._getMessageToSign(orderParameters, resolvedCounter);
       },
-      createOrder: async () => {
+      createOrder: async (wallet?: Wallet) => {
         const signature = await this.signOrder(
           orderParameters,
           resolvedCounter,
-          offerer
+          offerer,
+          wallet
         );
 
         return {
@@ -344,9 +347,10 @@ export class Seaport {
   public async signOrder(
     orderParameters: OrderParameters,
     counter: number,
-    accountAddress?: string
+    accountAddress?: string,
+    wallet?: Wallet
   ): Promise<string> {
-    const signer = this.provider.getSigner(accountAddress);
+    const signer = wallet || this.provider.getSigner(accountAddress);
 
     const domainData = await this._getDomainData();
 
