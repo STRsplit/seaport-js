@@ -80,7 +80,7 @@ export const mapInputItemToOfferItem = (item: CreateInputItem): OfferItem => {
             ? ItemType.ERC721_WITH_CRITERIA
             : ItemType.ERC1155_WITH_CRITERIA,
         token: item.token,
-        identifierOrCriteria: tree.getRoot(),
+        identifierOrCriteria: tree.getRootNumber(),
         startAmount: item.amount ?? "1",
         endAmount: item.endAmount ?? item.amount ?? "1",
       };

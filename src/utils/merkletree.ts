@@ -30,4 +30,10 @@ export class MerkleTree {
   getRoot() {
     return this.tree.getRoot().toString("hex") ? this.tree.getHexRoot() : "0";
   }
+
+  getRootNumber() {
+    const hex = this.getRoot();
+    const bn = BigNumber.from(hex);
+    return bn.toString();
+  }
 }
