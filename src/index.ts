@@ -1,3 +1,3 @@
 import { Seaport } from "./seaport";
-
-export { Seaport };
+import * as SeaportTypes from "./types";
+export { Seaport, SeaportTypes };
